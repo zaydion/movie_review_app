@@ -8,6 +8,11 @@
     <h2>
       <%= year_of(@movie) %> &bull; <%= @movie.rating %>
     </h2>
+
+     <div class="reviews">
+      <%= link_to pluralize(@movie.reviews.size, "Review"), movie_reviews_path(@movie) %>
+    </div>
+
     <p>
       <%= @movie.description %>
     </p>
@@ -25,11 +30,16 @@
         <td><%= total_gross(@movie) %></td>
       </tr>
     </table>
+
+    <%= link_to "Write Review", new_movie_review_path(@movie),
+              class: "review" %>
   </div>
 </section>
+
+<%= render 'reviews/form', movie: @movie, review: @review %>
 
 
 <section class="admin">
   <%= link_to "Edit", edit_movie_path(@movie), class: "button" %>
-  <%= link_to "Delete", @movie, class: 'button', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }%>
+  <%= link_to "Delete", @movie, class: 'button', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 </section>
