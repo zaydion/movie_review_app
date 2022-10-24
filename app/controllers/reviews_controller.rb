@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_movie
+  before_action :set_review, only: [:edit, :update, :destroy]
 
   def index
     @reviews = @movie.reviews.order(created_at: :desc)
@@ -20,11 +21,9 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    @review = Review.find(params[:id])
   end
 
   def update
-    @review = Review.find(params[:id])
     if @review.update(review_params)
       redirect_to movie_reviews_url, notice: "Review successfully updated!"
     else
@@ -33,9 +32,7 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review = Review.find(params[:id])
     @review.destroy
-
     redirect_to movie_reviews_path(@movie), status: :see_other, alert: "Review successfully deleted!"
   end
 
@@ -47,5 +44,9 @@ class ReviewsController < ApplicationController
 
   def set_movie
     @movie = Movie.find(params[:movie_id])
+  end
+
+  def set_review
+    @review = Review.find(params[:id])
   end
 end
