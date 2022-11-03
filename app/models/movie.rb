@@ -45,6 +45,6 @@ class Movie < ApplicationRecord
   end
 
   def cult_classic?
-    reviews.size > 50 && reviews.average(:stars) > 4.0
+    reviews.size > 50 && reviews.average(:stars) >= 4.0
   end
 end
