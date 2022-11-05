@@ -8,11 +8,18 @@
   <p>
     <%= @user.created_at.strftime("%B %Y") %>
   </p>
-  <div class="actions">
-    <%= link_to 'Edit Account', edit_user_path(@user), class: 'button edit' %>
-    <%= link_to 'Delete Account', @user,
-                                  data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
-                                  class: 'button delete' %>
-  </div>
+
+  <% if is_current_user?(@user) || is_current_user_admin? %>
+    <div class="actions">
+      <% if is_current_user?(@user) %>
+        <%= link_to 'Edit Account', edit_user_path(@user), class: 'button edit' %>
+      <% end %>
+      <% if is_current_user_admin? %>
+        <%= link_to 'Delete Account', @user,
+                                      data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+                                      class: 'button delete' %>
+      <% end %>
+    </div>
+  <% end %>
 </section>
 

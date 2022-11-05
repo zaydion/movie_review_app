@@ -40,7 +40,9 @@
 <%= render 'reviews/form', movie: @movie, review: @review %>
 
 
-<section class="admin">
-  <%= link_to "Edit", edit_movie_path(@movie), class: "button" %>
-  <%= link_to "Delete", @movie, class: 'button', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-</section>
+<% if is_current_user_admin? %>
+  <section class="admin">
+    <%= link_to "Edit", edit_movie_path(@movie), class: "button" %>
+    <%= link_to "Delete", @movie, class: 'button', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </section>
+<% end %>
