@@ -3,6 +3,16 @@
   <h1><%= @user.name %></h1>
   <h2><%= mail_to(@user.email) %></h2>
   <h3><%= @user.username %></h3>
+
+  <% if @favorite_movies.present? %>
+    <h3>Favorite Movies</h3>
+    <div class="favorite-movies">
+      <% @favorite_movies.each do |movie| %>
+        <%= link_to image_tag(movie.image_file_name), movie %>
+      <% end %>
+    </div>
+  <% end %>
+
   <h3>Member Since</h3>
   <p>
     <%= @user.created_at.strftime("%B %Y") %>
@@ -17,7 +27,8 @@
           </span>
           <%= pluralize(review.stars, 'star') %>
           <span class="date">
-            <%= time_ago_in_words(review.created_at) %> ago
+            <%= time_ago_in_words(review.created_at) %>
+            ago
           </span>
           <p>
             <%= review.comment %>

@@ -1,15 +1,17 @@
 <section class="movie-details">
   <div class="details">
     <div class="image">
-    <%= image_tag(@movie.image_file_name) %>
+      <%= image_tag(@movie.image_file_name) %>
     </div>
 
     <h1><%= @movie.title %></h1>
     <h2>
-      <%= year_of(@movie) %> &bull; <%= @movie.rating %>
+      <%= year_of(@movie) %>
+      &bull;
+      <%= @movie.rating %>
     </h2>
 
-     <div class="reviews">
+    <div class="reviews">
       <%= render 'shared/stars', percent: @movie.average_stars_as_percent %>
       <%= link_to pluralize(@movie.reviews.size, "Review"), movie_reviews_path(@movie) %>
     </div>
@@ -34,11 +36,23 @@
   </div>
 </section>
 
+<aside>
+  <% if @fans.present? %>
+    <h4>Fans</h4>
+    <ul>
+      <% @fans.each do |user| %>
+        <li>
+          <%= link_to profile_image(user, 20), user %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</aside>
+
 <br/>
 <br/>
 <h4>Write a Review</h4>
 <%= render 'reviews/form', movie: @movie, review: @review %>
-
 
 <% if is_current_user_admin? %>
   <section class="admin">
