@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   before_action :require_signin, except: [:new, :create]
   before_action :require_correct_user, only: [:edit, :update]
   before_action :require_admin, only: [:destroy]
@@ -10,6 +9,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @reviews = @user.reviews
   end
 
   def new
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user, notice: 'Thanks for signing up!'
+      redirect_to @user, notice: "Thanks for signing up!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'Account successfully updated!'
+      redirect_to @user, notice: "Account successfully updated!"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     unless is_current_user_admin?
       session[:user_id] = nil
     end
-    redirect_to movies_url, status: :see_other, alert: 'User successfully deleted'
+    redirect_to movies_url, status: :see_other, alert: "User successfully deleted"
   end
 
   private
@@ -56,5 +56,4 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     redirect_to root_url, status: :see_other unless is_current_user?(@user)
   end
-
 end
