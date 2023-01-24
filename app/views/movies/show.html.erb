@@ -50,8 +50,17 @@
     <ul>
       <% @fans.each do |user| %>
         <li>
-          <%= link_to profile_image(user, 20), user %>
+          <%= link_to profile_image(user, 40), user %>
         </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if @genres.present? %>
+    <h4>Genres</h4>
+    <ul>
+      <% @genres.each do |g| %>
+        <li><%= link_to g.name, g %></li>
       <% end %>
     </ul>
   <% end %>

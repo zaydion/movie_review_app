@@ -1,0 +1,28 @@
+<h2><%= @genre.name %></h2>
+
+<%= link_to "< All Genres", genres_path %>
+
+<ul>
+  <li><b><%= @genre.name %></b></li>
+  <li>Created <%= time_ago_in_words(@genre.created_at) %> ago</li>
+  <li>Updated <%= time_ago_in_words(@genre.updated_at) %> ago</li>
+</ul>
+
+<section>
+  <h4>Movies</h4>
+  <% @movies.each do |movie| %>
+    <div class="details">
+      <p>
+        <%= link_to movie.title, movie %> &bull; <%= year_of(movie) %>
+      </p>
+    </div>
+  <% end %>
+</section>
+
+
+<% if is_current_user_admin? %>
+  <section class="admin">
+    <%= link_to "Edit", edit_genre_path(@genre), class: "button" %>
+    <%= link_to "Delete", @genre, class: 'button', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </section>
+<% end %>

@@ -1,7 +1,10 @@
 class Movie < ApplicationRecord
   has_many :reviews, dependent: :destroy
+  has_many :critics, through: :reviews, source: :user
   has_many :favorites, dependent: :destroy
   has_many :fans, through: :favorites, source: :user
+  has_many :characterizations, dependent: :destroy
+  has_many :genres, through: :characterizations
 
   RATINGS = %w(G PG PG-13 R NC-17)
 
@@ -14,21 +17,14 @@ class Movie < ApplicationRecord
                               }
   validates :rating, inclusion: { in: RATINGS }
 
-  def self.hits
-    where("total_gross >= ?", 300_000_000).order(total_gross: :desc)
-  end
-
-  def self.flops
-    where("total_gross < ?", 225_000_000).order(:total_gross)
-  end
-
-  def self.recently_added
-    Movie.order(created_at: :desc).limit(3)
-  end
-
-  def self.released
-    where("released_on <= ?", Time.current).order(released_on: :desc)
-  end
+  scope :released, -> { where("released_on <= ?", Time.current).order(released_on: :desc) }
+  scope :hits, -> { released.where("total_gross >= ?", 300_000_000).order(total_gross: :desc) }
+  scope :flops, -> { released.where("total_gross < ?", 225_000_000).order(:total_gross) }
+  scope :recently_added, ->(limit = 3) { order(created_at: :desc).limit(limit) }
+  scope :upcoming, -> { where("released_on >= ?", Time.current).order(released_on: :asc) }
+  scope :recent, ->(max = 5) { released.limit(max) }
+  scope :grossed_less_than, ->(amount) { where("total_gross <= ?", amount) }
+  scope :grossed_greater_than, ->(amount) { where("total_gross >= ?", amount) }
 
   def flop?
     if cult_classic?

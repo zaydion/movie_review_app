@@ -1,0 +1,8 @@
+<h3>Genre's</h3>
+<% @genres.each do |g| %>
+  <ul>
+    <li><b><%= link_to g.name, g %></b></li>
+    <li>Created <%= time_ago_in_words(g.created_at) %> ago</li>
+    <li>Updated <%= time_ago_in_words(g.updated_at) %> ago</li>
+  </ul>
+<% end %>
