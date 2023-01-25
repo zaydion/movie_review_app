@@ -21,7 +21,7 @@
 
     <div class="reviews">
       <%= render 'shared/stars', percent: @movie.average_stars_as_percent %>
-      <%= link_to pluralize(@movie.reviews.size, "Review"), movie_reviews_path(@movie) %>
+      <%= link_to pluralize(@movie.reviews.count, "Review"), movie_reviews_path(@movie) %>
     </div>
 
     <p>
