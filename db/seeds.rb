@@ -143,6 +143,27 @@ Movie.create!([
   },
 ])
 
+
+[
+  ["Avengers: Endgame", "avengers-end-game.png"],
+  ["Captain Marvel", "captain-marvel.png"],
+  ["Black Panther", "black-panther.png"],
+  ["Avengers: Infinity War", "avengers-infinity-war.png"],
+  ["Green Lantern", "green-lantern.png"],
+  ["Fantastic Four", "fantastic-four.png"],
+  ["Iron Man", "ironman.png"],
+  ["Superman", "superman.png"],
+  ["Spider-Man", "spiderman.png"],
+  ["Batman", "batman.png"],
+  ["Catwoman", "catwoman.png"],
+  ["Wonder Woman", "wonder-woman.png"],
+].each do |movie_title, filename|
+  movie = Movie.find_by!(title: movie_title)
+  file = File.open(Rails.root.join("app/assets/images/#{filename}"))
+  movie.main_image.attach(io: file, filename: filename)
+end
+
+
 Genre.create(name: "Action")
 Genre.create(name: "Comedy")
 Genre.create(name: "Drama")
